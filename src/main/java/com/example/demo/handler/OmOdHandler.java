@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -79,7 +81,7 @@ public class OmOdHandler {
 				.collectList();
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
 	public Mono<ServerResponse> omOdInsert(ServerRequest request) {
 		return request.bodyToMono(OmOdInsert.class)
 				.flatMap(omOdDtl -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
@@ -114,6 +116,7 @@ public class OmOdHandler {
 //				, OmOdInsert.class)));
 
 	}
+	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
 	public Mono<ServerResponse> cancelOmOd(ServerRequest request) {
 		return request.bodyToMono(OmOdDtl.class)
 				.flatMap(omOdDtl -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
