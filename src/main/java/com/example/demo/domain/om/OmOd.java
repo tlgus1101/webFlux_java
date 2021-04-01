@@ -22,7 +22,9 @@ import lombok.With;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("om_od")
-public class OmOd implements Serializable, Persistable<String> {
+public class OmOd implements Serializable
+//		, Persistable<String>
+{
 	private static final long serialVersionUID = -5793348114310316331L;
 
 	@Id
@@ -43,8 +45,9 @@ public class OmOd implements Serializable, Persistable<String> {
 	@With
 	@Transient
 	private List<OmOdFvrDtl> omOdFvrDtlList;
-
-	private Boolean isNewBool;
+//	@With
+//	@Transient
+//	private Boolean isNewBool;
 
 	public OmOd(OmOdEx omOd, List<OmOdDtl> omOdDtlList) {
 		this.odNo = omOd.getOdNo();
@@ -64,14 +67,14 @@ public class OmOd implements Serializable, Persistable<String> {
 		this.modDttm = omOd.getModDttm();
 		this.omOdDtlList = omOdDtlList;
 	}
-
-	@Override
-	public String getId() {
-		return null;
-	}
-
-	@Override
-	public boolean isNew() {
-		return this.isNewBool;
-	}
+//
+//	@Override
+//	public String getId() {
+//		return null;
+//	}
+//
+//	@Override
+//	public boolean isNew() {
+//		return this.isNewBool;
+//	}
 }

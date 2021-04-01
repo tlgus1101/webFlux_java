@@ -136,7 +136,9 @@ public class OmOdHandler {
 														return omOdFvrDtlRepository.save(fvr)
 																.flatMap(fvrSave->omOdFvrDtlRepository.update(fvrSave.getAplyQty(),fvrSave.getOdNo(),fvrSave.getOdSeq(),fvrSave.getProcSeq()-1));
 													})
-													.concatMap(fvr->omOdDtlRepository.update(omOdDtl.getCnclQty(),omOdDtl.getOdNo(),omOdDtl.getOdSeq(),omOdDtl.getProcSeq())).collectList();
+													.concatMap(fvr->omOdDtlRepository.update(omOdDtl.getCnclQty(),omOdDtl.getOdNo(),omOdDtl.getOdSeq(),omOdDtl.getProcSeq()))
+													.concatMap(update->omOdRepository.update(omOdDtl.getOdNo()))
+													.collectList();
 										})
 								, OmOdDtl.class)));
 	}
