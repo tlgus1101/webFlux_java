@@ -16,6 +16,6 @@ public interface OmOdRepository extends ReactiveCrudRepository<OmOd, String> {
     Flux<OmOd> findByOdNoContainingAndMbNoContainingAndOdrNmContainingOrderByOdNo(String odNo, String mbNo, String odrNm);
 
     @Modifying
-    @Query("update om_od_dtl set mod_dttm = now() where od_no = :odNo")
+    @Query("update om_od set mod_dttm = now() where od_no = :odNo")
     Mono<Integer>  update(String odNo);
 }
