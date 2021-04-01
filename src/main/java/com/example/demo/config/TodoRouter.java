@@ -40,6 +40,7 @@ public class TodoRouter {
 				.POST("/api/odPrgsStepCdList", RequestPredicates.accept(APPLICATION_JSON), handler::odPrgsStepCdList)
 				.POST("/api/omOdInsert", RequestPredicates.accept(APPLICATION_JSON), handler::omOdInsert)
 				.POST("/api/cancelOmOd", RequestPredicates.accept(APPLICATION_JSON), handler::cancelOmOd)
+				.POST("/api/cancelOmOdList", RequestPredicates.accept(APPLICATION_JSON), handler::cancelOmOdList)
 				.filter(new ExampleHandlerFilterFunction()).build();
 	}
 }

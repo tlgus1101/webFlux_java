@@ -140,6 +140,35 @@ public class OmOdHandler {
 										})
 								, OmOdDtl.class)));
 	}
+
+	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
+	public Mono<ServerResponse> cancelOmOdList(ServerRequest request) {
+		return request.bodyToMono(OmOd.class)
+				.flatMap(omOd -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+						.body(BodyInserters.fromProducer(
+								Flux.fromIterable(omOd.getOmOdDtlList()).flatMap(omOdDtl ->{
+									return omOdDtlRepository.save(omOdDtl)
+											.flatMap(data->{
+												omOdDtl.setProcSeq(data.getProcSeq()-1);
+												omOdDtl.setCnclQty(data.getOdQty());
+												return omOdFvrDtlRepository.findByOdNoAndOdSeqAndProcSeq(omOdDtl.getOdNo(),omOdDtl.getOdSeq(),omOdDtl.getProcSeq())
+														.concatMap(fvr->{
+															fvr.setProcSeq(fvr.getProcSeq() + 1);
+															fvr.setClmNo(omOdDtl.getClmNo());
+															fvr.setOrglOdFvrNo(fvr.getOdFvrNo());
+															fvr.setOdFvrDvsCd("CNCL");
+															fvr.setModDttm(LocalDateTime.now());
+															fvr.setOdFvrNo(null);
+															return omOdFvrDtlRepository.save(fvr)
+																	.flatMap(fvrSave->omOdFvrDtlRepository.update(fvrSave.getAplyQty(),fvrSave.getOdNo(),fvrSave.getOdSeq(),fvrSave.getProcSeq()-1));
+														})
+														.concatMap(fvr->omOdDtlRepository.update(omOdDtl.getCnclQty(),omOdDtl.getOdNo(),omOdDtl.getOdSeq(),omOdDtl.getProcSeq()))
+														.concatMap(update->omOdRepository.update(omOdDtl.getOdNo()))
+														.collectList();
+											});
+								})
+								, OmOdDtl.class)));
+	}
 //.flatMap(update->{
 //		return Mono.just(omOdFvrDtlRepository.findByOdNoAndOdSeqAndProcSeq(omOdDtl.getOdNo(),omOdDtl.getOdSeq(),omOdDtl.getProcSeq())
 //				.flatMap(fvr->{
