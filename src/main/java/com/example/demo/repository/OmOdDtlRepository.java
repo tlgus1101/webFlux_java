@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 
 @Repository
-public interface OmOdDtlRepository extends ReactiveCrudRepository<OmOdDtl, String> {
+public interface OmOdDtlRepository extends ReactiveCrudRepository<OmOdDtl, String> , CustomOmOdRepository{
     @Query("SELECT * FROM om_od_dtl WHERE od_no = :odno")
     Flux<OmOdDtl> findOdNoAll(String odNo);
 

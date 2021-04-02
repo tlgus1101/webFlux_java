@@ -130,6 +130,12 @@ public class OmOdHandler {
 					}).collectList()
 				.flatMap(omOdDtl -> ServerResponse.ok().body(BodyInserters.fromProducer(Mono.just(omOdDtl),OmOdDtl.class)));
 	}
+	public Mono<ServerResponse> findClient(ServerRequest request) {
+		return request.bodyToMono(OmOd.class).flatMap(param -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+				.body(BodyInserters.fromProducer(
+						omOdDtlRepository.findClient()
+						,OmOd.class)));
+	}
 
 //	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
 //	public Mono<ServerResponse> omOdInsert(ServerRequest request) {

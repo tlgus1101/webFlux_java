@@ -41,6 +41,7 @@ public class TodoRouter {
 				.POST("/api/omOdInsert", RequestPredicates.accept(APPLICATION_JSON), handler::omOdInsert)
 				.POST("/api/cancelOmOd", RequestPredicates.accept(APPLICATION_JSON), handler::cancelOmOd)
 //				.POST("/api/cancelOmOdList", RequestPredicates.accept(APPLICATION_JSON), handler::cancelOmOdList)
+				.POST("/api/findClient", RequestPredicates.accept(APPLICATION_JSON), handler::findClient)
 				.filter(new ExampleHandlerFilterFunction()).build();
 	}
 }
