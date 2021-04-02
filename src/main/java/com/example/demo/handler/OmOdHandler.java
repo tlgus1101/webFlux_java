@@ -84,9 +84,9 @@ public class OmOdHandler {
 	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
 	public Mono<ServerResponse> omOdInsert(ServerRequest request) {
 		return request.bodyToMono(OmOdInsert.class)
-				.flatMap(omOdDtl -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-						.body(BodyInserters.fromProducer(
-								omOdRepository.save(new OmOd()).flatMap(data -> Flux.fromIterable(omOdDtl.getOmOdDtlList()).flatMap(dtl->{
+				.flatMap(omOdDtl->omOdRepository.save(new OmOd())
+						.flatMap(data -> Flux.fromIterable(omOdDtl.getOmOdDtlList())
+								.flatMap(dtl->{
 									dtl.setOdNo(data.getOdNo());
 									return omOdDtlRepository.save(dtl)
 											.flatMap(dtlData->
@@ -102,8 +102,8 @@ public class OmOdHandler {
 																}
 															}).collectList()
 											);
-								}).collectList())
-								, OmOdInsert.class)));
+								}).collectList()))
+		.flatMap(omOd -> ServerResponse.ok().body(BodyInserters.fromProducer(Mono.just(omOd),OmOdDtl.class)));
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED , rollbackFor = Exception.class)
