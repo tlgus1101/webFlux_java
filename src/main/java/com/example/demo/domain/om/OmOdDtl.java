@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.mapping.Table;
+import reactor.core.publisher.Mono;
 
 @Data
 @NoArgsConstructor
@@ -46,6 +47,29 @@ public class OmOdDtl implements Serializable {
 		this.odSeq = d.odSeq;
 		this.procSeq = d.procSeq;
 		this.clmNo = d.clmNo;
+		this.odTypCd = d.odTypCd;
+		this.odPrgsStepCd = d.odPrgsStepCd;
+		this.mbNo = d.mbNo;
+		this.odQty = d.odQty;
+		this.cnclQty = d.cnclQty;
+		this.rtngQty = d.rtngQty;
+		this.xchgQty = d.xchgQty;
+		this.slPrc = d.slPrc;
+		this.dcAmt = d.dcAmt;
+		this.pdNo = d.pdNo;
+		this.pdNm = d.pdNm;
+		this.prNo = d.prNo;
+		this.odCmptDttm = d.odCmptDttm;
+		this.purCfrmDttm = d.purCfrmDttm;
+		this.regDttm = d.regDttm;
+		this.modDttm = d.modDttm;
+	}
+
+	public OmOdDtl(String clmNo, OmOdDtl d) {
+		this.clmNo = clmNo;
+		this.odNo = d.odNo;
+		this.odSeq = d.odSeq;
+		this.procSeq = d.procSeq;
 		this.odTypCd = d.odTypCd;
 		this.odPrgsStepCd = d.odPrgsStepCd;
 		this.mbNo = d.mbNo;

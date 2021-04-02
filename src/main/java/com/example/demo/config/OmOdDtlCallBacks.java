@@ -43,7 +43,7 @@ public class OmOdDtlCallBacks implements BeforeConvertCallback<OmOdDtl>, BeforeS
 				return  omOdDtlRepository.findByOdNoAndOdSeqOrderByProcSeqDesc(entity.getOdNo(),entity.getOdSeq(),entity.getProcSeq())
 						.map(data->{
 							entity.setProcSeq(data.getProcSeq()+1);
-							entity.setClmNo("test1");
+//							entity.setClmNo("test1");
 							entity.setModDttm(LocalDateTime.now());
 							entity.setRegDttm(LocalDateTime.now());
 							return entity;
